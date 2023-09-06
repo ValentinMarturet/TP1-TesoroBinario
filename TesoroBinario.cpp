@@ -39,6 +39,13 @@ void iniciarJuego(Tablero * tablero, Jugador * jugador1, Jugador * jugador2){
 	while((jugador1->vidas > 0) && (jugador2->vidas > 0)) {
 		cout << "- TURNO " << turno << " -" << endl;
 
+		// Despues del primer turno los jugadores deberian poder mover sus tesoros.
+		if (turno > 1){
+			cout << " - JUGADOR 1 - " << endl;
+			pedirMoverTesoro(jugador1);
+		}
+
+
 		cout << "Jugador 1 - Coloque sus espias ---" << endl;
 		pedirEspia(tablero, jugador1->id);
 		imprimirTablero(tablero, jugador1);
@@ -47,10 +54,12 @@ void iniciarJuego(Tablero * tablero, Jugador * jugador1, Jugador * jugador2){
 		// y la casilla se bloquea por 5 turnos.
 		for(int i = 0; i<4; i++){
 			if(hayEspia(tablero, jugador2->tesoros[i], 2)){
+				cout << "¡¡LE ESTAS ROBANDO UN TESORO A TU CONTRINCANTE!!" << endl;
 				jugador2->tesoros[i].siendoRobado = true;
 				jugador2->tesoros[i].turnoFinal = turno+5;
 			}
 		}
+
 
 
 
@@ -71,6 +80,16 @@ void iniciarJuego(Tablero * tablero, Jugador * jugador1, Jugador * jugador2){
 
 
 
+
+		//Este loop se encarga de cambiar el estado de los tesoros una vez que ya fueron robados.
+		for(int i = 0; i < 4 ; i++){
+			if(jugador1->tesoros[i].turnoFinal > turno-1){
+				jugador1->tesoros[i].siendoRobado = false;
+			}
+			if(jugador2->tesoros[i].turnoFinal > turno-1){
+				jugador2->tesoros[i].siendoRobado = false;
+			}
+		}
 		turno++;
 	}
 

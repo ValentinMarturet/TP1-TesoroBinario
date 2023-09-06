@@ -47,7 +47,7 @@ int hayTesoro(Tesoros tesoros, int fila, int columna);
  * Devuelve true o false dependiendo de si hay un espia del jugador contrario en esa casilla.
  * El id pasado por parametro tiene que corresponder al jugador contrario
  */
-bool hayEspia(Tablero * tablero, Coordenada tesoro, int idEnemigo);
+bool hayEspia(Tablero * tablero, Tesoro tesoro, int idEnemigo);
 
 
 

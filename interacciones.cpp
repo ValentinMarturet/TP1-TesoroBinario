@@ -160,7 +160,28 @@ void pedirEspia(Tablero * tablero, int id){
 		tablero->matriz[espia.fila][espia.columna].espia = 0;
 	}
 
+}
 
+void pedirMoverTesoro(Jugador * jugador){
+	cout << "DEBES MOVER UN TESORO..." << endl;
+	int numeroTesoro;
+	cout << "Indique que tesoro quiere mover (1, 2, 3, 4):";
+	cin >> numeroTesoro;
+	while(numeroTesoro>5 && numeroTesoro < 1){
+		cout << "Numero de tesoro invalido!" << endl;
+		cout << "Indique que tesoro quiere mover (1, 2, 3, 4):";
+		cin >> numeroTesoro;
+	}
+	while(jugador->tesoros[numeroTesoro-1].turnoFinal != 0){
+		cout << "Este tesoro ya fue robado!" << endl;
+		cout << "Indique que tesoro quiere mover (1, 2, 3, 4):";
+		cin >> numeroTesoro;
+	}
+
+	cout << "Indique a que fila quiere mover el tesoro: ";
+	cin >> jugador->tesoros[numeroTesoro-1].fila;
+	cout << "Indique a que columna quiere mover el tesoro: ";
+	cin >> jugador->tesoros[numeroTesoro-1].columna;
 
 }
 

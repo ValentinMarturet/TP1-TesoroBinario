@@ -24,4 +24,6 @@ void pedirTesoros(Tesoros tesoros);
 
 void pedirEspia(Tablero * tablero, int id);
 
+void pedirMoverTesoro(Jugador * jugador);
+
 #endif /* INTERACCIONES_H_ */
