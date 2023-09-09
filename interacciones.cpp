@@ -178,10 +178,244 @@ void pedirMoverTesoro(Jugador * jugador){
 		cin >> numeroTesoro;
 	}
 
-	cout << "Indique a que fila quiere mover el tesoro: ";
-	cin >> jugador->tesoros[numeroTesoro-1].fila;
-	cout << "Indique a que columna quiere mover el tesoro: ";
-	cin >> jugador->tesoros[numeroTesoro-1].columna;
+	int movimiento;
+	do{
 
+
+		cout << "Indique como quiere mover el tesoro:" << endl
+				<< "- Arriba (1)" << "              " << "- Abajo (2)" << endl
+				<< "- Izquierda (3)" << "           " << "- Derecha(4)" << endl
+				<< "- Arriba-Izquierda (5)" << "    " << "- Abajo-Izquierda (6)" << endl
+				<< "- Arriba-Derecha (7)" << "      " << "- Abajo-Derecha (8)" << endl;
+		cin >> movimiento;
+	} while(movimiento < 0 || movimiento > 8 );
+
+	moverTesoro(movimiento, jugador->tesoros, numeroTesoro);
+
+}
+
+void moverTesoro(int movimiento, Tesoros tesoros, int numeroTesoro){
+	int cantidadCasillas;
+	int coincidencias;
+	numeroTesoro--;
+
+	switch(movimiento){
+			case 1:
+				cout << "MOVIENDO TESORO HACIA ARRIBA" << endl;
+				do {
+					cout << "Indique cuantas casillas quieres mover el tesoro: ";
+					cin >> cantidadCasillas;
+					if(tesoros[numeroTesoro].fila - cantidadCasillas >= 0){
+						coincidencias = 0;
+						for(int i = 0; i < 4; i++){
+							if (tesoros[i].fila == (tesoros[numeroTesoro].fila - cantidadCasillas)
+									&& tesoros[i].columna == tesoros[numeroTesoro].columna
+									&& i != numeroTesoro){
+								coincidencias++;
+							}
+						}
+
+
+					}
+					if(coincidencias > 0 || !(tesoros[numeroTesoro].fila - cantidadCasillas >= 0) ){
+						cout << "La casilla a la que intentas mover el tesoro ya esta ocupada por uno de tus tesoros o te saliste del tablero." << endl
+								<< "Por favor, elije otra." << endl;
+					}
+				} while(coincidencias > 0 || !(tesoros[numeroTesoro].fila - cantidadCasillas >= 0));
+				tesoros[numeroTesoro].fila -= cantidadCasillas;
+				break;
+
+
+			case 2:
+				cout << "MOVIENDO TESORO HACIA ABAJO" << endl;
+				do {
+					cout << "Indique cuantas casillas quieres mover el tesoro: ";
+					cin >> cantidadCasillas;
+					if(tesoros[numeroTesoro].fila + cantidadCasillas < 20){
+						coincidencias = 0;
+						for(int i = 0; i < 4; i++){
+							if (tesoros[i].fila == (tesoros[numeroTesoro].fila + cantidadCasillas)
+									&& tesoros[i].columna == tesoros[numeroTesoro].columna
+									&& i != numeroTesoro){
+								coincidencias++;
+							}
+						}
+
+					}
+					if(coincidencias > 0 || !(tesoros[numeroTesoro].fila + cantidadCasillas < 20) ){
+						cout << "La casilla a la que intentas mover el tesoro ya esta ocupada por uno de tus tesoros o te saliste del tablero." << endl
+								<< "Por favor, elije otra." << endl;
+					}
+				} while(coincidencias > 0 || !(tesoros[numeroTesoro].fila + cantidadCasillas < 20));
+				tesoros[numeroTesoro].fila += cantidadCasillas;
+				break;
+
+
+			case 3:
+				cout << "MOVIENDO TESORO HACIA IZQUIERDA" << endl;
+				do {
+					cout << "Indique cuantas casillas quieres mover el tesoro: ";
+					cin >> cantidadCasillas;
+					if(tesoros[numeroTesoro].columna - cantidadCasillas >= 0){
+						coincidencias = 0;
+						for(int i = 0; i < 4; i++){
+							if (tesoros[i].fila == (tesoros[numeroTesoro].columna - cantidadCasillas)
+										&& tesoros[i].fila == tesoros[numeroTesoro].fila
+										&& i != numeroTesoro){
+									coincidencias++;
+								}
+						}
+
+					}
+					if(coincidencias > 0 || !(tesoros[numeroTesoro].columna - cantidadCasillas >= 0) ){
+						cout << "La casilla a la que intentas mover el tesoro ya esta ocupada por uno de tus tesoros o te saliste del tablero." << endl
+								<< "Por favor, elije otra." << endl;
+					}
+				} while(coincidencias > 0 || !(tesoros[numeroTesoro].columna - cantidadCasillas >= 0));
+				tesoros[numeroTesoro].columna -= cantidadCasillas;
+				break;
+
+
+			case 4:
+				cout << "MOVIENDO TESORO HACIA DERECHA" << endl;
+				do {
+					cout << "Indique cuantas casillas quieres mover el tesoro: ";
+					cin >> cantidadCasillas;
+					if(tesoros[numeroTesoro].columna + cantidadCasillas < 20){
+						coincidencias = 0;
+						for(int i = 0; i < 4; i++){
+							if (tesoros[i].fila == (tesoros[numeroTesoro].columna + cantidadCasillas)
+										&& tesoros[i].fila == tesoros[numeroTesoro].fila
+										&& i != numeroTesoro){
+									coincidencias++;
+								}
+						}
+
+					}
+					if(coincidencias > 0 || !(tesoros[numeroTesoro].columna + cantidadCasillas < 20) ){
+						cout << "La casilla a la que intentas mover el tesoro ya esta ocupada por uno de tus tesoros o te saliste del tablero." << endl
+								<< "Por favor, elije otra." << endl;
+					}
+				} while(coincidencias > 0 || !(tesoros[numeroTesoro].columna + cantidadCasillas < 20));
+				tesoros[numeroTesoro].columna += cantidadCasillas;
+				break;
+
+
+			case 5:
+				cout << "MOVIENDO TESORO HACIA ARRIBA-IZQUIERDA" << endl;
+				do {
+					cout << "Indique cuantas casillas quieres mover el tesoro: ";
+					cin >> cantidadCasillas;
+					if(tesoros[numeroTesoro].columna - cantidadCasillas >= 0
+							&& tesoros[numeroTesoro].fila - cantidadCasillas >= 0){
+						coincidencias = 0;
+						for(int i = 0; i < 4; i++){
+							if (tesoros[i].fila == (tesoros[numeroTesoro].columna - cantidadCasillas)
+										&& tesoros[i].fila == (tesoros[numeroTesoro].fila - cantidadCasillas)
+										&& i != numeroTesoro){
+									coincidencias++;
+								}
+						}
+
+					}
+					if(coincidencias > 0 || !(tesoros[numeroTesoro].columna - cantidadCasillas >= 0
+							&& tesoros[numeroTesoro].fila - cantidadCasillas >= 0) ){
+						cout << "La casilla a la que intentas mover el tesoro ya esta ocupada por uno de tus tesoros o te saliste del tablero." << endl
+								<< "Por favor, elije otra." << endl;
+					}
+				} while(coincidencias > 0 || !(tesoros[numeroTesoro].columna - cantidadCasillas >= 0
+						&& tesoros[numeroTesoro].fila - cantidadCasillas >= 0));
+				tesoros[numeroTesoro].columna -= cantidadCasillas;
+				tesoros[numeroTesoro].fila -= cantidadCasillas;
+				break;
+
+
+			case 6:
+				cout << "MOVIENDO TESORO HACIA ABAJO-IZQUIERDA" << endl;
+				do {
+					cout << "Indique cuantas casillas quieres mover el tesoro: ";
+					cin >> cantidadCasillas;
+					if(tesoros[numeroTesoro].columna - cantidadCasillas >= 0
+							&& tesoros[numeroTesoro].fila + cantidadCasillas < 20){
+						coincidencias = 0;
+						for(int i = 0; i < 4; i++){
+							if (tesoros[i].fila == (tesoros[numeroTesoro].columna - cantidadCasillas)
+										&& tesoros[i].fila == (tesoros[numeroTesoro].fila + cantidadCasillas)
+										&& i != numeroTesoro){
+									coincidencias++;
+								}
+						}
+
+					}
+					if(coincidencias > 0 || !(tesoros[numeroTesoro].columna - cantidadCasillas >= 0
+							&& tesoros[numeroTesoro].fila + cantidadCasillas < 20) ){
+						cout << "La casilla a la que intentas mover el tesoro ya esta ocupada por uno de tus tesoros o te saliste del tablero." << endl
+								<< "Por favor, elije otra." << endl;
+					}
+				} while(coincidencias > 0 || !(tesoros[numeroTesoro].columna - cantidadCasillas >= 0
+						&& tesoros[numeroTesoro].fila + cantidadCasillas < 20));
+				tesoros[numeroTesoro].columna -= cantidadCasillas;
+				tesoros[numeroTesoro].fila += cantidadCasillas;
+				break;
+
+
+			case 7:
+				cout << "MOVIENDO TESORO HACIA ARRIBA-DERECHA" << endl;
+				do {
+					cout << "Indique cuantas casillas quieres mover el tesoro: ";
+					cin >> cantidadCasillas;
+					if(tesoros[numeroTesoro].columna + cantidadCasillas < 20
+							&& tesoros[numeroTesoro].fila - cantidadCasillas >= 0){
+						coincidencias = 0;
+						for(int i = 0; i < 4; i++){
+							if (tesoros[i].fila == (tesoros[numeroTesoro].columna + cantidadCasillas)
+										&& tesoros[i].fila == (tesoros[numeroTesoro].fila - cantidadCasillas)
+										&& i != numeroTesoro){
+									coincidencias++;
+								}
+						}
+
+					}
+					if(coincidencias > 0 || !(tesoros[numeroTesoro].columna + cantidadCasillas < 20
+							&& tesoros[numeroTesoro].fila - cantidadCasillas >= 0) ){
+						cout << "La casilla a la que intentas mover el tesoro ya esta ocupada por uno de tus tesoros o te saliste del tablero." << endl
+								<< "Por favor, elije otra." << endl;
+					}
+				} while(coincidencias > 0 || !(tesoros[numeroTesoro].columna + cantidadCasillas < 20
+						&& tesoros[numeroTesoro].fila - cantidadCasillas >= 0));
+				tesoros[numeroTesoro].columna += cantidadCasillas;
+				tesoros[numeroTesoro].fila -= cantidadCasillas;
+				break;
+
+
+			case 8:
+				cout << "MOVIENDO TESORO HACIA ABAJO-DERECHA" << endl;
+				do {
+					cout << "Indique cuantas casillas quieres mover el tesoro: ";
+					cin >> cantidadCasillas;
+					if(tesoros[numeroTesoro].columna + cantidadCasillas < 20
+							&& tesoros[numeroTesoro].fila + cantidadCasillas < 20){
+						coincidencias = 0;
+						for(int i = 0; i < 4; i++){
+							if (tesoros[i].fila == (tesoros[numeroTesoro].columna + cantidadCasillas)
+										&& tesoros[i].fila == (tesoros[numeroTesoro].fila + cantidadCasillas)
+										&& i != numeroTesoro){
+									coincidencias++;
+								}
+						}
+
+					}
+					if(coincidencias > 0 || !(tesoros[numeroTesoro].columna + cantidadCasillas < 20
+							&& tesoros[numeroTesoro].fila + cantidadCasillas < 20) ){
+						cout << "La casilla a la que intentas mover el tesoro ya esta ocupada por uno de tus tesoros o te saliste del tablero." << endl
+								<< "Por favor, elije otra." << endl;
+					}
+
+				} while(coincidencias > 0 || !(tesoros[numeroTesoro].columna + cantidadCasillas < 20
+						&& tesoros[numeroTesoro].fila + cantidadCasillas < 20));
+				tesoros[numeroTesoro].columna += cantidadCasillas;
+				tesoros[numeroTesoro].fila += cantidadCasillas;
+				break;
+		}
 }
 

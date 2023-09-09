@@ -26,4 +26,12 @@ void pedirEspia(Tablero * tablero, int id);
 
 void pedirMoverTesoro(Jugador * jugador);
 
+/*
+ * Se le otorga el tipo de movimiento y la lista de tesoros y esta pide cuantas casillas se quiere desplazar ese tesoro.
+ * Chequee que el tesoro no se salga del tablero y que no ocupe el mismo lugar de un tesoro propio. Si cumple todas las
+ * condiciones mueve el tesoro a la casilla indicada.
+ */
+void moverTesoro(int movimiento, Tesoros tesoro, int numeroTesoro);
+
+
 #endif /* INTERACCIONES_H_ */

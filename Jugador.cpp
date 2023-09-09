@@ -8,6 +8,7 @@
 
 #include "Jugador.h"
 #include "interacciones.h"
+#include <iostream>
 
 
 
@@ -39,10 +40,10 @@ int hayTesoro(Tesoros tesoro, int fila, int columna){
 }
 
 
-bool hayEspia(Tablero * tablero, Tesoro * tesoro, int idEnemigo){
+bool hayEspia(Tablero * tablero, Tesoro * tesoro, int id){
 	bool resultado;
 
-	if(tablero->matriz[tesoro->fila][tesoro->columna].espia == idEnemigo){
+	if(tablero->matriz[tesoro->fila][tesoro->columna].espia == id){
 		resultado = true;
 	} else resultado = false;
 
