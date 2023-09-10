@@ -49,6 +49,11 @@ int hayTesoro(Tesoros tesoros, int fila, int columna);
  */
 bool hayEspia(Tablero * tablero, Tesoro * tesoro, int idEnemigo);
 
+/*
+ * Esta funcion imprime un aviso si el jugador enemigo ha movido uno de sus tesoros sobre el tesoro propio.
+ */
+void tesorosSuperpuestos(Jugador * jugador, int fila, int columna);
+
 
 
 #endif /* JUGADOR_H_ */

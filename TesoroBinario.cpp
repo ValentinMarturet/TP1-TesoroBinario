@@ -37,6 +37,7 @@ void iniciarJuego(Tablero * tablero, Jugador * jugador1, Jugador * jugador2){
 
 	int turno = 1;
 	int aux;
+	Posicion ultimoMovimiento;
 
 	while((jugador1->vidas > 0) && (jugador2->vidas > 0)) {
 		cout << "- TURNO " << turno << " -" << endl;
@@ -44,7 +45,9 @@ void iniciarJuego(Tablero * tablero, Jugador * jugador1, Jugador * jugador2){
 		// Despues del primer turno los jugadores deberian poder mover sus tesoros.
 		cout << " - JUGADOR 1 - " << endl;
 		if (turno > 1){
-			pedirMoverTesoro(jugador1);
+			tesorosSuperpuestos(jugador1, ultimoMovimiento.fila, ultimoMovimiento.fila);
+			pedirMoverTesoro(jugador1, &ultimoMovimiento);
+			cout << "columna: " << ultimoMovimiento.columna << " fila: " << ultimoMovimiento.fila << endl;
 		}
 
 
@@ -64,8 +67,12 @@ void iniciarJuego(Tablero * tablero, Jugador * jugador1, Jugador * jugador2){
 		cin >> aux;
 
 		cout << " - JUGADOR 2 - " << endl;
+
+		tesorosSuperpuestos(jugador2, ultimoMovimiento.fila, ultimoMovimiento.fila);
+
 		if (turno > 1 && jugador2->vidas >0){
-			pedirMoverTesoro(jugador2);
+			pedirMoverTesoro(jugador2, &ultimoMovimiento);
+			cout << "columna: " << ultimoMovimiento.columna << " fila: " << ultimoMovimiento.fila << endl;
 		}
 
 
@@ -75,14 +82,6 @@ void iniciarJuego(Tablero * tablero, Jugador * jugador1, Jugador * jugador2){
 
 		chequearTesorosRobados(tablero, jugador1, 2, turno);
 
-//		for(int i = 0; i<4; i++){
-//			if(hayEspia(tablero, &jugador1->tesoros[i], 2) && (jugador1->tesoros[i].turnoFinal == 0)){
-//				cout << "¡¡LE ESTAS ROBANDO UN TESORO A TU CONTRINCANTE!!" << endl;
-//				jugador1->tesoros[i].siendoRobado = true;
-//				jugador1->tesoros[i].turnoFinal = turno+5;
-//				jugador1->vidas--;
-//			}
-//		}
 
 		hayTesoro(jugador1->tesoros, 2, 2);
 
@@ -98,9 +97,14 @@ void iniciarJuego(Tablero * tablero, Jugador * jugador1, Jugador * jugador2){
 		for(int i = 0; i < 4 ; i++){
 			if(jugador1->tesoros[i].turnoFinal < turno-1){
 				jugador1->tesoros[i].siendoRobado = false;
+				//Esto hace que los tesoros dejen de ocupar esas casillas una vez que han sido robados
+				jugador1->tesoros[i].columna = 20;
+				jugador1->tesoros[i].fila = 20;
 			}
 			if(jugador2->tesoros[i].turnoFinal < turno-1){
 				jugador2->tesoros[i].siendoRobado = false;
+				jugador2->tesoros[i].columna = 20;
+				jugador2->tesoros[i].fila = 20;
 			}
 		}
 		turno++;

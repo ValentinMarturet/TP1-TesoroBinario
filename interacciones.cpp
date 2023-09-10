@@ -162,7 +162,7 @@ void pedirEspia(Tablero * tablero, int id){
 
 }
 
-void pedirMoverTesoro(Jugador * jugador){
+void pedirMoverTesoro(Jugador * jugador, Posicion * ultimoMovimiento){
 	cout << "DEBES MOVER UN TESORO..." << endl;
 	int numeroTesoro;
 	cout << "Indique que tesoro quiere mover (1, 2, 3, 4):";
@@ -190,13 +190,13 @@ void pedirMoverTesoro(Jugador * jugador){
 		cin >> movimiento;
 	} while(movimiento < 0 || movimiento > 8 );
 
-	moverTesoro(movimiento, jugador->tesoros, numeroTesoro);
+	moverTesoro(movimiento, jugador->tesoros, numeroTesoro, ultimoMovimiento);
 
 }
 
-void moverTesoro(int movimiento, Tesoros tesoros, int numeroTesoro){
-	int cantidadCasillas;
-	int coincidencias;
+void moverTesoro(int movimiento, Tesoros tesoros, int numeroTesoro, Posicion * ultimoMovimiento){
+	int cantidadCasillas = 0;
+	int coincidencias = 0;
 	numeroTesoro--;
 
 	switch(movimiento){
@@ -240,8 +240,8 @@ void moverTesoro(int movimiento, Tesoros tesoros, int numeroTesoro){
 								coincidencias++;
 							}
 						}
-
 					}
+					cout << "Test 4to tesoro. Coincidencias: " << coincidencias << " nueva fila: " << tesoros[numeroTesoro].fila << "+" << cantidadCasillas << "=" << tesoros[numeroTesoro].fila + cantidadCasillas << endl;
 					if(coincidencias > 0 || !(tesoros[numeroTesoro].fila + cantidadCasillas < 20) ){
 						cout << "La casilla a la que intentas mover el tesoro ya esta ocupada por uno de tus tesoros o te saliste del tablero." << endl
 								<< "Por favor, elije otra." << endl;
@@ -417,5 +417,7 @@ void moverTesoro(int movimiento, Tesoros tesoros, int numeroTesoro){
 				tesoros[numeroTesoro].fila += cantidadCasillas;
 				break;
 		}
+	ultimoMovimiento->columna = tesoros[numeroTesoro].columna;
+	ultimoMovimiento->fila = tesoros[numeroTesoro].fila;
 }
 

@@ -50,4 +50,16 @@ bool hayEspia(Tablero * tablero, Tesoro * tesoro, int id){
 	return resultado;
 }
 
+void tesorosSuperpuestos(Jugador * jugador, int fila, int columna){
+	for(int i = 0; i<4; i++){
+		if (jugador->tesoros[i].columna == columna
+				&& jugador->tesoros[i].fila == fila){
+			std::cout << "El jugador " << (jugador->id == 1 ? 2 : 1) << " ha colocado un tesoro en una de las casillas ocupadas por tus tesoros."
+					<< std::endl << "fila: " << fila << "  columna: " << columna << std::endl;
+		}
+	}
+
+
+}
+
 
