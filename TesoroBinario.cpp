@@ -14,20 +14,7 @@
 
 using namespace std;
 
-TesoroBinario inicializarTesoroBinario(int alto, int ancho){
-	TesoroBinario tesoroBinario;
 
-	Jugador jugador1 = inicializarJugador(1);
-	Jugador jugador2 = inicializarJugador(2);
-
-	tesoroBinario.jugador1 = &jugador1;
-	tesoroBinario.jugador2 = &jugador2;
-	Tablero tablero = inicializarTablero(alto, ancho);
-
-	tesoroBinario.tablero = &tablero;
-
-	return tesoroBinario;
-}
 
 
 void iniciarJuego(Tablero * tablero, Jugador * jugador1, Jugador * jugador2){
@@ -39,21 +26,31 @@ void iniciarJuego(Tablero * tablero, Jugador * jugador1, Jugador * jugador2){
 	int aux;
 	Posicion ultimoMovimiento;
 
+
+	string ruta1 = "jugador1.txt";
+	string ruta2 = "jugador2.txt";
+
+	ofstream archivo1;
+	ofstream archivo2;
+	archivo1.open(ruta1.c_str());
+	archivo2.open(ruta2.c_str());
+
+
 	while((jugador1->vidas > 0) && (jugador2->vidas > 0)) {
 		cout << "- TURNO " << turno << " -" << endl;
 
 		// Despues del primer turno los jugadores deberian poder mover sus tesoros.
 		cout << " - JUGADOR 1 - " << endl;
 		if (turno > 1){
-			tesorosSuperpuestos(jugador1, ultimoMovimiento.fila, ultimoMovimiento.fila);
+			tesorosSuperpuestos(jugador1, ultimoMovimiento.fila, ultimoMovimiento.columna);
 			pedirMoverTesoro(jugador1, &ultimoMovimiento);
-			cout << "columna: " << ultimoMovimiento.columna << " fila: " << ultimoMovimiento.fila << endl;
 		}
 
 
 		cout << "Jugador 1 - Coloque sus espias ---" << endl;
 		pedirEspia(tablero, jugador1->id);
 		imprimirTablero(tablero, jugador1);
+		guardarTablero(tablero, jugador1, &archivo1, turno);
 
 		// Tengo que iterar sobre los tesoros del contrincante. Si alguno tiene un espia encima, ese tesoro se empiza a recoger
 		// y la casilla se bloquea por 5 turnos.
@@ -68,7 +65,7 @@ void iniciarJuego(Tablero * tablero, Jugador * jugador1, Jugador * jugador2){
 
 		cout << " - JUGADOR 2 - " << endl;
 
-		tesorosSuperpuestos(jugador2, ultimoMovimiento.fila, ultimoMovimiento.fila);
+		tesorosSuperpuestos(jugador2, ultimoMovimiento.fila, ultimoMovimiento.columna);
 
 		if (turno > 1 && jugador2->vidas >0){
 			pedirMoverTesoro(jugador2, &ultimoMovimiento);
@@ -79,11 +76,10 @@ void iniciarJuego(Tablero * tablero, Jugador * jugador1, Jugador * jugador2){
 		cout << "Jugador 2 - Coloque sus espias ---" << endl;
 		pedirEspia(tablero, jugador2->id);
 		imprimirTablero(tablero, jugador2);
+		guardarTablero(tablero, jugador2, &archivo2, turno);
 
 		chequearTesorosRobados(tablero, jugador1, 2, turno);
 
-
-		hayTesoro(jugador1->tesoros, 2, 2);
 
 
 		cout << "-INGRESE UN NUMERO PARA TERMINAR EL TURNO: ";
@@ -95,13 +91,13 @@ void iniciarJuego(Tablero * tablero, Jugador * jugador1, Jugador * jugador2){
 
 		//Este loop se encarga de cambiar el estado de los tesoros una vez que ya fueron robados.
 		for(int i = 0; i < 4 ; i++){
-			if(jugador1->tesoros[i].turnoFinal < turno-1){
+			if(jugador1->tesoros[i].turnoFinal < turno-1 && jugador1->tesoros[i].turnoFinal != 0){
 				jugador1->tesoros[i].siendoRobado = false;
 				//Esto hace que los tesoros dejen de ocupar esas casillas una vez que han sido robados
 				jugador1->tesoros[i].columna = 20;
 				jugador1->tesoros[i].fila = 20;
 			}
-			if(jugador2->tesoros[i].turnoFinal < turno-1){
+			if(jugador2->tesoros[i].turnoFinal < turno-1 && jugador2->tesoros[i].turnoFinal != 0){
 				jugador2->tesoros[i].siendoRobado = false;
 				jugador2->tesoros[i].columna = 20;
 				jugador2->tesoros[i].fila = 20;
@@ -109,13 +105,18 @@ void iniciarJuego(Tablero * tablero, Jugador * jugador1, Jugador * jugador2){
 		}
 		turno++;
 	}
-	if (jugador1->vidas == 0){
+	if(jugador1->vidas == 0 && jugador2->vidas == 0){
+		cout << "LA APRTIDA HA TERMINADO EN EMPATE..." << endl;
+	} else if (jugador1->vidas == 0){
 		cout << "EL JUGADOR 1 SE HA QUEDADO SIN TESOROS..." << endl;
 	} else if (jugador2->vidas == 0){
 		cout << "EL JUGADOR 2 SE HA QUEDADO SIN TESOROS..." << endl;
 	} else {
 		cout << "HA OCURRIDO UN ERROR Y LA PARTIDA HA TERMINADO." << endl;
 	}
+
+	archivo1.close();
+	archivo2.close();
 
 
 }

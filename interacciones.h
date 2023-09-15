@@ -8,6 +8,8 @@
 #ifndef INTERACCIONES_H_
 #define INTERACCIONES_H_
 
+#include <fstream>
+
 #include "Jugador.h"
 
 typedef struct {
@@ -20,6 +22,12 @@ typedef struct {
  * Imprime el tablero para el jugador dado
  */
 void imprimirTablero(Tablero * tablero, Jugador * jugador);
+
+
+/*
+ * Guarda el estado del tablero en un archivo de texto
+ */
+void guardarTablero(Tablero * tablero, Jugador * jugador, std::ofstream * salida, int turno);
 
 /*
  * Pide por input que el usuario elija las posiciones de sus tesoros

@@ -4,10 +4,8 @@
  *  Created on: 2 sep. 2023
  *      Author: Valentin
  */
-#include "interacciones.h"
 #include "Tablero.h"
 #include "TesoroBinario.h"
-#include <iostream>
 
 int main() {
 
@@ -21,10 +19,6 @@ int main() {
 
 	iniciarJuego(&tablero, &jugador1, &jugador2);
 
-	//main ideal
-//	TesoroBinario tesoroBinario = inicializarTesoroBinario(20, 20);
-//	iniciarJuego(&tesoroBinario);
-//	borrarTablero(&tesoroBinario);
 	borrarTablero(&tablero);
 	return 0;
 }

@@ -11,15 +11,6 @@
 
 #include "Jugador.h"
 
-typedef struct {
-	Tablero * tablero;
-	Jugador * jugador1;
-	Jugador * jugador2;
-
-} TesoroBinario;
-
-TesoroBinario inicializarTesoroBinario(int alto, int ancho);
-
 
 void iniciarJuego(Tablero * tablero, Jugador * jugador1, Jugador * jugador2);
 
